@@ -22,31 +22,33 @@ class Words {
 //: ### variables the same type? If not, why?
 
 
-//: [EXPLAIN YOUR ANSWER HERE]
+//: No, the values passed into the **init** function are "optional" types whereas those set to the instance variables are implicitly unwrapped optionals. The difference between the two is that optionals may safely unwrap nil values whereas implicitly unwrapped optionals assume that the inputs are not nil, unsafely unwrap the values, and errors if they are nil.
 
 
 //: ## Q2: Variable Types and Function Types
-    func arePalindromes(words: [String]) -> Bool {
+    class func arePalindromes(words: [String]) -> Bool {
         let reversedWords = words.map() {String($0.characters.reverse())}
         var numElements = words.count
         
-        for let i = 0; i < numElements; i++ {
+        for var i = 0; i < numElements; i++ {
             if words[i] != reversedWords[i] {
                 return false
             }
         }
+        
+        return true
     }
 //: ### Why does the compiler dislike the **for loop**? Fix it.
 //: ### What else is wrong with this function? You may have to refer to (but **not**
 //: ### change) the code at the very bottom. Debug the function.
 
 
-//: [EXPLAIN YOUR ANSWER HERE]
+//: The compiler disliked the **for loop** because we set index "i" as a "let", which is immutable, when we were trying to continuously add to the variable to index the loop. To fix this, we simply changed "i" from a "let" to a "var". The other issue was regarding "arePalindromes" function type. Since the class "Words" uses the function itself, and not an instance of the class, we had to set arePalindromes as either a "class" or "static" func rather than a regular func. Also, there was no return statement at the end of the function that returns true for palindromes.
 
 
 //: ## Q3: More Functions and Object Initialization
-    class func isAnagram() -> Bool {
-        var countLetters : [Character : Int] //Line X
+    func isAnagram() -> Bool {
+        var countLetters : [Character : Int] = [Character : Int]() //Line X
         var lenA = self.wordA.characters.count
         var lenB = self.wordB.characters.count
         
@@ -81,7 +83,7 @@ class Words {
             }
         }
         
-        return nil
+        return true
     }
 //: ### What is the problem with declaring **countLetters** as we do in **Line X**,
 //: ### and then using it in **Line Y**? Fix it (by only changing **Line X**).
@@ -89,7 +91,7 @@ class Words {
 //: ### change) the code at the very bottom. Debug the function.
 
 
-//: [EXPLAIN YOUR ANSWER HERE]
+//: We never created an empty array in **Line X** for **countLetters** to input characters and values for usage in **Line Y**. Another issue with "isAnagram" is that the function was declared as a "class" func when it should really be a regular func since it is only used in instances of the class "Words". We also had to change the return type at the end of the function from "nil" to "true" since we want the function to state true if the two inputs are anagrams of each other.
     
     
 }
